@@ -294,7 +294,7 @@ document.getElementById("notifyViaBotBtn").addEventListener("click", () => {
   const { coinId, targetPrice, direction } = lastAlertPayload;
   // payload format the bot's /start handler expects: coin_price_direction
   const payload = `${coinId}_${targetPrice}_${direction}`;
-  const deepLink = `https://t.me/${BOT_USERNAME}?start=${payload}`;
+  const deepLink = `https://t.me/${CryptoP2_Bot}?start=${payload}`;
 
   haptic("light");
 
