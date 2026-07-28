@@ -6,6 +6,9 @@
 const COINGECKO_BASE = "https://api.coingecko.com/api/v3";
 const CHECK_INTERVAL_MS = 30000; // check alerts every 30s while app is open
 const ALERTS_KEY = "cryptopulse_alerts";
+const BOT_USERNAME = "YourBotUsername"; // <-- set this to your actual bot's @username (no @)
+
+let lastAlertPayload = null; // holds {coinId, symbol, targetPrice, direction} for the notify-via-bot button
 
 // ---------------------------------------------------------------------------
 // Telegram WebApp integration (safe no-op if opened outside Telegram)
@@ -270,6 +273,12 @@ async function handleAddAlert() {
     renderAlerts();
     showToast(`✅ Alert set: ${coin.symbol.toUpperCase()} ${direction} $${targetPrice}`);
     haptic("success");
+
+    // Reveal the "notify via bot" button, wired to this specific alert
+    lastAlertPayload = { coinId: coin.id, symbol: coin.symbol, targetPrice, direction };
+    const notifyBtn = document.getElementById("notifyViaBotBtn");
+    notifyBtn.textContent = `🔔 Also notify me via bot for ${coin.symbol.toUpperCase()}`;
+    notifyBtn.classList.remove("hidden");
   } catch (e) {
     showToast("Something went wrong. Try again.");
   } finally {
@@ -279,6 +288,22 @@ async function handleAddAlert() {
 }
 
 document.getElementById("addAlertBtn").addEventListener("click", handleAddAlert);
+
+document.getElementById("notifyViaBotBtn").addEventListener("click", () => {
+  if (!lastAlertPayload) return;
+  const { coinId, targetPrice, direction } = lastAlertPayload;
+  // payload format the bot's /start handler expects: coin_price_direction
+  const payload = `${coinId}_${targetPrice}_${direction}`;
+  const deepLink = `https://t.me/${BOT_USERNAME}?start=${payload}`;
+
+  haptic("light");
+
+  if (tg?.openTelegramLink) {
+    tg.openTelegramLink(deepLink);
+  } else {
+    window.open(deepLink, "_blank");
+  }
+});
 
 function renderAlerts() {
   const container = document.getElementById("alertsList");
