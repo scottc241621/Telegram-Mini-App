@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CryptoPulse — Live Prices & Alerts</title>
+  <meta name="description" content="Track live crypto prices and get instant alerts when your target price hits. No signup, no wallet connection." />
+
+  <!-- Telegram Mini App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <span class="logo">⚡</span>
+        <h1>CryptoPulse</h1>
+      </div>
+      <p class="subtitle">Live prices. Instant alerts. No signup, no wallet.</p>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="market">Market</button>
+      <button class="tab-btn" data-tab="alerts">Alerts</button>
+    </nav>
+
+    <!-- MARKET TAB -->
+    <section id="tab-market" class="tab-content active">
+
+      <div class="search-box">
+        <input type="text" id="coinSearch" placeholder="Search coin (e.g. bitcoin, eth, sol)" autocomplete="off" />
+        <button id="searchBtn">🔍</button>
+      </div>
+
+      <div id="searchResult" class="search-result hidden"></div>
+
+      <div class="section-heading">
+        <h2>Top 10 by Market Cap</h2>
+        <button id="refreshBtn" class="refresh-btn" title="Refresh">↻</button>
+      </div>
+
+      <div id="topCoinsList" class="coin-list">
+        <div class="loading">Loading market data…</div>
+      </div>
+
+    </section>
+
+    <!-- ALERTS TAB -->
+    <section id="tab-alerts" class="tab-content">
+
+      <div class="alert-form">
+        <h2>Set a New Alert</h2>
+        <input type="text" id="alertCoin" placeholder="Coin (e.g. btc)" autocomplete="off" />
+        <div class="alert-form-row">
+          <input type="number" id="alertPrice" placeholder="Target price (USD)" step="any" />
+          <select id="alertDirection">
+            <option value="above">Above</option>
+            <option value="below">Below</option>
+          </select>
+        </div>
+        <button id="addAlertBtn" class="primary-btn">Set Alert</button>
+        <p class="hint">Alerts fire while this app is open. For alerts even when your phone's asleep, use our Telegram bot @YourBotUsername.</p>
+      </div>
+
+      <div class="section-heading">
+        <h2>Your Alerts</h2>
+      </div>
+
+      <div id="alertsList" class="alerts-list">
+        <p class="empty-state">No alerts yet. Set one above.</p>
+      </div>
+
+    </section>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
