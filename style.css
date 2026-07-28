@@ -293,6 +293,27 @@ body {
   opacity: 0.85;
 }
 
+.secondary-btn {
+  width: 100%;
+  background: transparent;
+  color: var(--link);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.secondary-btn:active {
+  opacity: 0.8;
+}
+
+.secondary-btn.hidden {
+  display: none;
+}
+
 .hint {
   color: var(--hint);
   font-size: 11px;
